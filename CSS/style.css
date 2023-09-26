@@ -1,0 +1,93 @@
+/* Reset Css */
+*,
+html,
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Start Css */
+
+nav {
+  width: 100vw;
+  background-color: #9eddff;
+  height: 50px;
+  overflow-x: hidden;
+}
+
+.container {
+  width: 95%;
+  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.flex {
+  display: flex;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-items: center;
+}
+
+.navbar-items {
+  list-style: none;
+  display: flex;
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  width: 20%;
+}
+
+.navbar-items a:hover {
+  color: #952323;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.brand-name {
+  font-weight: 500;
+  font-size: 29px;
+  font-family: "Keania One", "sans-serif";
+}
+
+.hamburger-menu {
+  height: 80%;
+  border-radius: 10%;
+  aspect-ratio: 1/1;
+  border: solid 2px;
+  padding: 5px;
+  display: none;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Responsive Section */
+@media only screen and (max-width: 768px) {
+  .hamburger-menu {
+    display: flex;
+  }
+
+  .navbar-items {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 992px) {
+  .navbar-items {
+    width: 30%;
+  }
+}
