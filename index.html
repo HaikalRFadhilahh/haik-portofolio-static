@@ -11,20 +11,24 @@
   <body>
     <nav>
       <div class="container flex items-center justify-between">
-        <h2 class="brand-name">
-          Haikal<span style="color: #ff6969">Fadhilah</span>
-        </h2>
-        <ul class="navbar-items justify-between">
+        <h2 class="brand-name">HaikalFadhilah</h2>
+        <ul id="navbar-items" class="navbar-items justify-between">
           <li><a href="#">Home</a></li>
           <li><a href="#">Skill</a></li>
           <li><a href="#">Portofolio</a></li>
           <li><a href="#">Resume</a></li>
         </ul>
-        <div class="hamburger-menu flex">
+        <div class="hamburger-menu flex toggle" onclick="toggleList()">
           <img src="./IMG/ICON/menu.png" alt="" />
         </div>
       </div>
     </nav>
+    <div class="banner-page">
+      <div class="container">
+        <div class="banner-section"></div>
+        <div class="banner-section"></div>
+      </div>
+    </div>
     <script src="./JS/navbar-control.js"></script>
   </body>
 </html>
