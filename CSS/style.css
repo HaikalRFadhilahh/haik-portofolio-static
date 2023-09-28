@@ -14,10 +14,11 @@ body {
 nav {
   width: 100vw;
   background-color: #f5f5f5;
-  height: 60px;
-  max-height: fit-content;
+  height: fit-content;
   overflow-x: hidden;
   filter: drop-shadow(0 25px 25px rgb(0 0 0 / 0.15));
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .container {
@@ -67,7 +68,7 @@ a {
 }
 
 .hamburger-menu {
-  height: 70%;
+  height: 40px;
   border-radius: 10%;
   aspect-ratio: 1/1;
   border: solid 2px;
@@ -131,6 +132,11 @@ a {
   background-position: center;
   background-size: cover;
 }
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
 /* Responsive Section */
 
 /* Mobile Size */
@@ -161,19 +167,13 @@ a {
   }
 
   .navbar-items {
-    position: absolute;
+    padding-top: 10px;
+    padding-bottom: 10px;
     display: none;
-    top: 60px;
-    right: 0;
-    width: 100vw;
-    margin-right: auto;
-    margin-left: auto;
-    background-color: #f1efef;
-    text-align: center;
     flex-direction: column;
     gap: 10px;
-    padding: 10px;
-    overflow: hidden;
+    width: 100vh;
+    text-align: center;
   }
 
   .toggle-navbar {
