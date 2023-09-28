@@ -48,7 +48,7 @@ nav {
   display: flex;
   font-family: "Inter", sans-serif;
   font-weight: 500;
-  width: 20%;
+  gap: 10px;
 }
 
 .navbar-items a:hover {
@@ -183,7 +183,4 @@ a {
 
 /* Tablet Size */
 @media only screen and (min-width: 768px) and (max-width: 992px) {
-  .navbar-items {
-    width: 30%;
-  }
 }
