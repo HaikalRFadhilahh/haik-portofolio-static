@@ -165,7 +165,7 @@ a {
 .about-page h2 {
   text-align: center;
   font-family: "Inter", sans-serif;
-  font-size: 30px;
+  font-size: 40px;
   font-weight: 700;
   padding-top: 20px;
   padding-bottom: 20px;
@@ -192,7 +192,7 @@ a {
 
 .skill-section h2 {
   width: 100vw;
-  font-size: 30px;
+  font-size: 40px;
   font-family: "Inter", sans-serif;
   text-align: center;
 }
@@ -264,12 +264,7 @@ a {
 
 .hire-page {
   width: 100vw;
-  height: 80vh;
-}
-
-.hire-page .container {
-  padding-top: 20px;
-  padding-bottom: 20px;
+  height: 70vh;
 }
 
 .hire-text {
@@ -428,10 +423,92 @@ a {
   color: #b4b4b3;
 }
 
+.contact-page {
+  width: 100vw;
+  height: fit-content;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.contact-page .container {
+  height: fit-content;
+}
+
+.contact-page .container h2 {
+  font-family: "Inter", sans-serif;
+  font-size: 40px;
+  font-weight: 800;
+  width: 100%;
+  text-align: center;
+}
+
+.contact-page .container h3 {
+  width: 100%;
+  font-family: "Inter", sans-serif;
+  font-size: 25px;
+  font-weight: 200;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+.contact-box {
+  width: 100vw;
+  height: fit-content;
+}
+
+.contact-section {
+  height: 70vh;
+}
+
+.animasi {
+  width: 80%;
+  aspect-ratio: 1/1;
+}
+
+.flex-wrap-reverse {
+  flex-wrap: wrap-reverse;
+}
+
+.contact-img {
+  width: 70px;
+  background-color: #952323;
+  border-radius: 100%;
+  aspect-ratio: 1/1;
+}
+
+.contact-section .container {
+  height: 100%;
+}
+
+.contact-list {
+  width: 100%;
+  gap: 10px;
+}
+
+.contact-list p {
+  width: 100%;
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.kiri {
+  width: 40%;
+}
+
+.kanan {
+  width: 60%;
+}
 /* Responsive Section */
 
 /* Mobile Size */
 @media only screen and (max-width: 768px) {
+  .contact-section {
+    width: 100%;
+  }
+
   .footer .container h2,
   ul {
     width: 100%;
