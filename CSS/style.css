@@ -502,6 +502,15 @@ a {
 .kanan {
   width: 60%;
 }
+
+.link-contact {
+  color: #6499E9;
+}
+
+.link-contact:hover {
+  color: #3085C3;
+}
+
 /* Responsive Section */
 
 /* Mobile Size */
