@@ -510,6 +510,11 @@ a {
     width: 100%;
   }
 
+  .contact-page {
+    padding-top: 0;
+    padding-bottom: 30px;
+  }
+
   .footer .container h2,
   ul {
     width: 100%;
