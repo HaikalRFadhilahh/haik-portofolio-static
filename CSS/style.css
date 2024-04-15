@@ -146,7 +146,7 @@ a {
   border: 4px solid #4b527e;
   aspect-ratio: 1/1;
   overflow: hidden;
-  background-image: url("../IMG/ASSETS/pribadi.jpg");
+  background-image: url("../IMG/ASSETS/haik.jpeg");
   background-position: center;
   background-size: cover;
 }
@@ -504,11 +504,11 @@ a {
 }
 
 .link-contact {
-  color: #6499E9;
+  color: #6499e9;
 }
 
 .link-contact:hover {
-  color: #3085C3;
+  color: #3085c3;
 }
 
 /* Responsive Section */
