@@ -3,10 +3,25 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- SEO (Search Engine Optimalization) -->
+    <meta
+      name="description"
+      content="Haikal Raditya Fadhilah, Haikal R Fadhilah, Haikal Fadhilah, Portofolio Haikal, Haikal DevSecOps, Haikal Backend Developer, Seseorang dengan pengalaman kerja DevSecOps Engineer dan Backend Developer" />
+    <meta property="og:title" content="Haikal Raditya Fadhilah - DevSecOps" />
+    <meta
+      property="og:description"
+      content="Portofolio Haikal Raditya Fadhilah dengan pengalaman sebagai Backend Developer dan DevSecOps Engineer." />
+    <meta property="og:url" content="https://haik.my.id/" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:image"
+      content="https://haik.my.id/IMG/ASSETS/haik.jpeg" />
+    <!-- Title and Icon Web -->
+    <title>Haikal R Fadhilah - DevSecOps Engineer - Backend Developer</title>
+    <link rel="icon" href="./IMG/LOGO/HaikLogo.png" />
+    <!-- Linked styling css files -->
     <link rel="stylesheet" href="./CSS/style.css" />
     <link rel="stylesheet" href="./CSS/fonts.css" />
-    <link rel="icon" href="./IMG/LOGO/HaikLogo.png" />
-    <title>Haikal WkwkLand Portofolio</title>
   </head>
   <body class="remove-scroll-bar">
     <!-- Navbar Section -->
@@ -31,15 +46,13 @@
       <div class="container">
         <div class="banner-section flex justify-center">
           <h1 class="banner-name">Haikal R Fadhilah,</h1>
-          <h2 class="work-text">
-            <span style="color: #21a9d4">Dev</span
-            ><span style="color: #233a5e">Ops</span> Engineer
-          </h2>
+          <h2 class="work-text" id="work-role"></h2>
           <p class="keterangan">
-            Hello,Perkenalkan Haikal R Fadhilah sebagai DevOps Engineer yang
-            memiliki minat dalam dunia IT,saya juga sangat antusias dalam
-            teknologi Server Dan IT Operations.Saya berkerja sebagai IT Support
-            di Organisasi Forum Asisten.
+            Hello,Perkenalkan Haikal R Fadhilah sebagai DevSecOps Engineer dan
+            Backend Developer yang memiliki minat dalam dunia IT,saya juga
+            sangat antusias dalam teknologi Server Dan IT Operations.Saya
+            memiliki pengalaman kerja selama 1 tahun dan memiliki pengalaman
+            kerja di Perusahaan Singapura 🇸🇬
           </p>
         </div>
         <div class="banner-section justify-center items-center flex">
@@ -55,9 +68,9 @@
         <div class="about-page-section">
           <p>
             Perkenalkan saya Haikal Raditya Fadhilah yang kerap di sapa
-            Haik,saya sedang menempuh jenjang kuliah dengan program studi
-            Informatika di Universitas Amikom Yogyakarta.Saya lahir dan tinggal
-            di Yogyakarta,sejak SMA saya sudah mulai tertarik dengan IT dan
+            Haik,saya adalah seorang Fresh Graduate program studi Informatika di
+            Universitas Amikom Yogyakarta.Saya lahir dan tinggal di
+            Yogyakarta,sejak SMA saya sudah mulai tertarik dengan IT dan
             Programming,diawali dengan hanya mencoba-coba programming saya
             merasa bahagia ketika melakukan hal tersebut,dari situlah saya mulai
             menekuni dalam bidang Teknologi Programming hingga sekarang.
@@ -65,13 +78,13 @@
         </div>
         <div class="about-page-section">
           <p>
-            Sebagai IT Enthusiast saya mendalami sebagai seorang Development
-            Operation atau yang lebih familiar dengan sebutan DevOps,Saya mulai
-            tertarik dengan DevOps ketika mencoba dan menggunakan Linux sebagai
-            Sistem Operasi Utama saya.Dengan mengkonfigurasi server dan
-            menerapakan DevOps dalam sebuah tim saya mulai menyadari bahwa
-            DevOps merupakan posisi yang penting dalam sebuah tim.Pada akhirnya
-            saya menjadi seorang DevOps Engineer disebuah organisasi.
+            Sebagai IT Enthusiast saya mendalami sebagai seorang
+            Development,Security, Operation atau yang lebih familiar dengan
+            sebutan DevSecOps, Saya memiliki banyak pengalaman Magang /
+            Internship sebagai Backend Developer, DevSecOps Engineer di berbagai
+            Tempat seperti Layanan Lembaga Pendidikan Tinggi Wilayah V
+            Yogyakarta, GeekGarden Software House, Prodi Informatika Universitas
+            Amikom Yogyakarta dan Practical DevSecOps.
           </p>
         </div>
       </div>
@@ -300,6 +313,29 @@
     <script
       src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs"
       type="module"></script>
+    <script src="https://unpkg.com/typeit@8.7.1/dist/index.umd.js"></script>
+    <script>
+      new TypeIt("#work-role", {
+        loop: true, // biar terus berputar
+        speed: 140,
+        deleteSpeed: 80,
+        waitUntilVisible: true,
+      })
+        .type(
+          "<span style='color: #21a9d4'>Dev</span><span style='color: #386873'>Sec</span><span style='color: #233a5e'>Ops</span> Engineer."
+        )
+        .pause(1050)
+        .delete()
+        .type("<span style='color: #264BAF'>Backend</span> Developer.")
+        .pause(1050)
+        .delete()
+        .type(
+          "<span style='color: #5D54C4'>Application </span><span style='color: #386873'>Security</span> Engineer."
+        )
+        .pause(1050)
+        .delete()
+        .go();
+    </script>
     <!-- Javascript Library End -->
   </body>
 </html>
