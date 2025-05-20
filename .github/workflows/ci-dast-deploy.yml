@@ -1,0 +1,145 @@
+# Name of Github Workflow
+name: Continuous Integration DAST and Artifacts Deployment
+
+# Condition Trigger the Workflow
+on:
+  # This Workflow / CI only Run After Github Pages Workflow Done and Successfully
+  workflow_run:
+    workflows: ["pages-build-deployment"]
+    types:
+      - completed
+
+# Continuous Integration Jobs
+jobs:
+  # Dynamic Analysis Security Testing Continuous Intergation
+  dast:
+    # Running DAST Stage on Ubuntu Latest
+    runs-on: ubuntu-latest
+
+    # Running DAST When Github Pages Success Updated Web
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    # Setting to use Production Environment
+    environment: production
+
+    # List Of Steps DAST using Owasp Zap Proxy Baseline, sslyze, and nikto
+    steps:
+      # DAST using Owasp ZAP Proxy
+      - name: Pull Docker Image Owasp Zap Proxy Baseline
+        run: |
+          docker pull zaproxy/zap-stable:2.16.1
+          docker run -u root --privileged -v $(pwd):/zap/wrk:rw --rm zaproxy/zap-stable:2.16.1 zap-baseline.py -t ${{ secrets.PROD_WEB_URL }} -w result-zaproxy-baseline.md
+        continue-on-error: true
+
+      - name: Upload Artifacts Result Owasp Zap Proxy Scan
+        uses: actions/upload-artifact@v4
+        with:
+          name: Owasp ZAP Proxy Result Check
+          path: result-zaproxy-baseline.md
+          if-no-files-found: warn
+          compression-level: 0
+          retention-days: 10
+
+      # Nikto DAST Checking Result
+      - name: Setup Nikto on Ubuntu Latest
+        run: |
+          apt install nikto -y
+          apt-get install perl libnet-ssleay-perl openssl libauthen-pam-perl libio-pty-perl libmd5-perl -y
+
+      - name: Running Scan Nikto
+        run: timeout 60s nikto -nossl -host ${{ secrets.PROD_WEB_URL }} -Format txt -output nikto-scan-result.txt || return 0
+        continue-on-error: true
+
+      - name: Upload Artifacts Result Nikto Scan
+        uses: actions/upload-artifact@v4
+        with:
+          name: Nikto Web Scanner Checking Result
+          path: nikto-scan-result.txt
+          if-no-files-found: warn
+          compression-level: 0
+          retention-days: 10
+
+      # Sslyze DAST Checking Result
+      - name: Pull Docker Image Sslyze
+        run: docker pull nablac0d3/sslyze:6.1.0
+
+      - name: Scan ssl Github Pages with Docker Image Sslyze
+        run: docker run --rm -it -w /app -v $(pwd):/app nablac0d3/sslyze:6.1.0 ${{ secrets.PROD_WEB_HOST }}:${{ secrets.PROD_WEB_PORT_SSL }} --certinfo --heartbleed --json_out /app/sslyze-scan-result.json
+        continue-on-error: true
+
+      - name: Upload Artifacts Sslyze Result Scan
+        uses: actions/upload-artifact@v4
+        with:
+          name: Sslyze Result Scan
+          path: sslyze-scan-result.json
+          if-no-files-found: warn
+          compression-level: 0
+          retention-days: 10
+
+  # Building Artifacts Docker Image and Save in Github Artifacts Management
+  build-artifacts:
+    # Running Build Artifacts Steps using Ubuntu Latest
+    runs-on: ubuntu-latest
+
+    # Running Build Artifacts When Workflow Github Pages Done
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    # Config Environment to Production
+    environment: production
+
+    # List Of Steps Preparing Build Artifacts
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Build Artifacts with Docker Builx Build
+        run: docker buildx build -t ${{ vars.DOCKER_IMAGE_NAME }}:${{ vars.DOCKER_IMAGE_VERSION }} --platform linux/amd64,linux/arm64 .
+
+      - name: Export Docker Image to Artifacts File (.tar)
+        run: docker save -o ./docker-image-artifact-haikal-portofolio.tar ${{ vars.DOCKER_IMAGE_NAME }}:${{ vars.DOCKER_IMAGE_VERSION }}
+
+      - name: Upload Artifacts Docker Image Haikal Portofolio
+        uses: actions/upload-artifact@v4
+        with:
+          name: Docker Image Artifact Haikal Portofolio
+          path: docker-image-artifact-haikal-portofolio.tar
+          if-no-files-found: warn
+          compression-level: 0
+          retention-days: 30
+
+  # Load Docker Image Artifacts and Push to Docker registry
+  upload-artifacts-to-registry:
+    # Running Jobs Upload Artifacts to Registry in Ubuntu OS
+    runs-on: ubuntu-latest
+
+    # Running Jobs After Github Pages Deployment Success
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    # Setting Environment For Production
+    environment: production
+
+    # List of Steps
+    steps:
+      - name: Download Docker Image Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: Docker Image Artifact Haikal Portofolio
+          path: .
+
+      - name: Import Docker Image Artifacts to Docker Images
+        run: docker load -i ./docker-image-artifact-haikal-portofolio.tar
+
+      - name: Create latest version for docker images
+        run: docker tag ${{ vars.DOCKER_IMAGE_NAME }}:${{ vars.DOCKER_IMAGE_VERSION }} ${{ vars.DOCKER_IMAGE_NAME }}:latest
+
+      - name: Login Docker ghcr.io Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ secrets.AUTH_REGISTRY_USERNAME }}
+          password: ${{ secrets.AUTH_REGISTRY_PASSWORD }}
+
+      - name: Push Docker Image Artifacts to Github Registry
+        run: |
+          docker push ${{ vars.DOCKER_IMAGE_NAME }}:${{ vars.DOCKER_IMAGE_VERSION }}
+          docker push ${{ vars.DOCKER_IMAGE_NAME }}:latest
