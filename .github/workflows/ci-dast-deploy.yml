@@ -45,11 +45,11 @@ jobs:
         run: |
           sudo apt update
           sudo apt install nikto -y
-          sudo apt-get install perl libnet-ssleay-perl openssl libauthen-pam-perl libio-pty-perl libmd5-perl -y
+          sudo apt-get install perl libnet-ssleay-perl openssl libauthen-pam-perl libio-pty-perl -y
         continue-on-error: true
 
       - name: Running Scan Nikto
-        run: timeout 60s nikto -nossl -host ${{ secrets.PROD_WEB_URL }} -Format txt -output nikto-scan-result.txt || return 0
+        run: timeout 60s nikto -nossl -host ${{ secrets.PROD_WEB_HOST }} -Format txt -output nikto-scan-result.txt || return 0
         continue-on-error: true
 
       - name: Upload Artifacts Result Nikto Scan
@@ -66,7 +66,7 @@ jobs:
         run: docker pull nablac0d3/sslyze:6.1.0
 
       - name: Scan ssl Github Pages with Docker Image Sslyze
-        run: docker run --rm -it -w /app -v $(pwd):/app nablac0d3/sslyze:6.1.0 ${{ secrets.PROD_WEB_HOST }}:${{ secrets.PROD_WEB_PORT_SSL }} --certinfo --heartbleed --json_out /app/sslyze-scan-result.json
+        run: docker run --rm -w /app -v $(pwd):/app nablac0d3/sslyze:6.1.0 ${{ secrets.PROD_WEB_HOST }}:${{ secrets.PROD_WEB_PORT_SSL }} --certinfo --heartbleed --json_out /app/sslyze-scan-result.json
         continue-on-error: true
 
       - name: Upload Artifacts Sslyze Result Scan
@@ -118,7 +118,9 @@ jobs:
         run: docker buildx build -t ${{ vars.DOCKER_IMAGE_NAME }}:${{ vars.DOCKER_IMAGE_VERSION }} --platform linux/amd64,linux/arm64 .
 
       - name: Export Docker Image to Artifacts File (.tar)
-        run: docker save -o ./docker-image-artifact-haikal-portofolio.tar ${{ vars.DOCKER_IMAGE_NAME }}:${{ vars.DOCKER_IMAGE_VERSION }}
+        run: |
+          docker images  
+          docker image save ${{ vars.DOCKER_IMAGE_NAME }}:${{ vars.DOCKER_IMAGE_VERSION }} > ./docker-image-artifact-haikal-portofolio.tar
 
       - name: Upload Artifacts Docker Image Haikal Portofolio
         uses: actions/upload-artifact@v4
