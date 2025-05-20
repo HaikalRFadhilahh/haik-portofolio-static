@@ -43,8 +43,8 @@ jobs:
       # Nikto DAST Checking Result
       - name: Setup Nikto on Ubuntu Latest
         run: |
-          apt install nikto -y
-          apt-get install perl libnet-ssleay-perl openssl libauthen-pam-perl libio-pty-perl libmd5-perl -y
+          sudo apt install nikto -y
+          sudo apt-get install perl libnet-ssleay-perl openssl libauthen-pam-perl libio-pty-perl libmd5-perl -y
 
       - name: Running Scan Nikto
         run: timeout 60s nikto -nossl -host ${{ secrets.PROD_WEB_URL }} -Format txt -output nikto-scan-result.txt || return 0
@@ -92,8 +92,28 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Build Artifacts with Docker Builx Build
-        run: docker buildx build -t ${{ vars.DOCKER_IMAGE_NAME }}:${{ vars.DOCKER_IMAGE_VERSION }} --platform linux/amd64,linux/arm64 .
+      - name: Setup Docker Config and Replace Default Docker Configuration
+        uses: docker/setup-docker-action@v4
+        with:
+          daemon-config: |
+            {
+              "debug": true,
+              "features": {
+                "containerd-snapshotter": true
+              }
+            }
+
+      - name: Setup Qemu for Github Actions and Build Docker Image Multi Platform
+        uses: docker/setup-qemu-action@v3
+
+      - name: Setup Buildx Docker
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          platforms: linux/amd64,linux/arm64
+          tags: ${{ vars.DOCKER_IMAGE_NAME }}:${{ vars.DOCKER_IMAGE_VERSION }}
 
       - name: Export Docker Image to Artifacts File (.tar)
         run: docker save -o ./docker-image-artifact-haikal-portofolio.tar ${{ vars.DOCKER_IMAGE_NAME }}:${{ vars.DOCKER_IMAGE_VERSION }}
@@ -120,6 +140,23 @@ jobs:
 
     # List of Steps
     steps:
+      - name: Setup Docker Config and Replace Default Docker Configuration
+        uses: docker/setup-docker-action@v4
+        with:
+          daemon-config: |
+            {
+              "debug": true,
+              "features": {
+                "containerd-snapshotter": true
+              }
+            }
+
+      - name: Setup Qemu for Github Actions and Build Docker Image Multi Platform
+        uses: docker/setup-qemu-action@v3
+
+      - name: Setup Buildx Docker
+        uses: docker/setup-buildx-action@v3
+
       - name: Download Docker Image Artifacts
         uses: actions/download-artifact@v4
         with:
